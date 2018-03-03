@@ -1,6 +1,7 @@
 package com.binance.api.client;
 
 import com.binance.api.client.domain.account.Account;
+import com.binance.api.client.domain.account.CancelOrderResponse;
 import com.binance.api.client.domain.account.DepositAddress;
 import com.binance.api.client.domain.account.DepositHistory;
 import com.binance.api.client.domain.account.NewOrder;
@@ -190,7 +191,7 @@ public interface BinanceApiAsyncRestClient {
    * @param cancelOrderRequest order status request parameters
    * @param callback the callback that handles the response
    */
-  void cancelOrder(CancelOrderRequest cancelOrderRequest, BinanceApiCallback<Void> callback);
+  void cancelOrder(CancelOrderRequest cancelOrderRequest, BinanceApiCallback<CancelOrderResponse> callback);
 
   /**
    * Get all open orders on a symbol (asynchronous).

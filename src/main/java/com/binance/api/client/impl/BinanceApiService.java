@@ -1,10 +1,13 @@
 package com.binance.api.client.impl;
 
+import java.util.List;
+
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.OrderSide;
 import com.binance.api.client.domain.OrderType;
 import com.binance.api.client.domain.TimeInForce;
 import com.binance.api.client.domain.account.Account;
+import com.binance.api.client.domain.account.CancelOrderResponse;
 import com.binance.api.client.domain.account.DepositAddress;
 import com.binance.api.client.domain.account.DepositHistory;
 import com.binance.api.client.domain.account.NewOrderResponse;
@@ -21,6 +24,7 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.TickerPrice;
 import com.binance.api.client.domain.market.TickerStatistics;
+
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -28,8 +32,6 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
-
-import java.util.List;
 
 /**
  * Binance's REST API URL mappings and endpoint security configuration.
@@ -106,7 +108,7 @@ public interface BinanceApiService {
 
   @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
   @DELETE("/api/v3/order")
-  Call<Void> cancelOrder(@Query("symbol") String symbol, @Query("orderId") Long orderId,
+  Call<CancelOrderResponse> cancelOrder(@Query("symbol") String symbol, @Query("orderId") Long orderId,
                              @Query("origClientOrderId") String origClientOrderId, @Query("newClientOrderId") String newClientOrderId,
                              @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
 

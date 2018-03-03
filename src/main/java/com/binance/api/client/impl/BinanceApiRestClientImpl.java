@@ -3,6 +3,7 @@ package com.binance.api.client.impl;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.account.Account;
+import com.binance.api.client.domain.account.CancelOrderResponse;
 import com.binance.api.client.domain.account.DepositAddress;
 import com.binance.api.client.domain.account.DepositHistory;
 import com.binance.api.client.domain.account.NewOrder;
@@ -143,8 +144,8 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   }
 
   @Override
-  public void cancelOrder(CancelOrderRequest cancelOrderRequest) {
-    executeSync(binanceApiService.cancelOrder(cancelOrderRequest.getSymbol(),
+  public CancelOrderResponse cancelOrder(CancelOrderRequest cancelOrderRequest) {
+    return executeSync(binanceApiService.cancelOrder(cancelOrderRequest.getSymbol(),
         cancelOrderRequest.getOrderId(), cancelOrderRequest.getOrigClientOrderId(), cancelOrderRequest.getNewClientOrderId(),
         cancelOrderRequest.getRecvWindow(), cancelOrderRequest.getTimestamp()));
   }
