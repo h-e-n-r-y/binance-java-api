@@ -6,7 +6,7 @@
 
   <groupId>com.binance.api</groupId>
   <artifactId>binance-api-client</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1-HENRY</version>
 
   <properties>
     <com.squareup.retrofit2.version>2.3.0</com.squareup.retrofit2.version>
