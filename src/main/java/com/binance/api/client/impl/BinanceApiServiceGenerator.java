@@ -26,13 +26,14 @@ public class BinanceApiServiceGenerator {
             .baseUrl(BinanceApiConstants.API_BASE_URL)
             .addConverterFactory(JacksonConverterFactory.create());
 
-    private static Retrofit retrofit = builder.build();
+//    private static Retrofit retrofit = builder.build();
 
     public static <S> S createService(Class<S> serviceClass) {
         return createService(serviceClass, null, null);
     }
 
     public static <S> S createService(Class<S> serviceClass, String apiKey, String secret) {
+    	Retrofit retrofit = builder.build();
         if (!StringUtils.isEmpty(apiKey) && !StringUtils.isEmpty(secret)) {
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(apiKey, secret);
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
@@ -66,6 +67,7 @@ public class BinanceApiServiceGenerator {
      * Extracts and converts the response error body into an object.
      */
     public static BinanceApiError getBinanceApiError(Response<?> response) throws IOException, BinanceApiException {
+    	Retrofit retrofit = builder.build();
         return (BinanceApiError)retrofit.responseBodyConverter(BinanceApiError.class, new Annotation[0])
             .convert(response.errorBody());
     }
