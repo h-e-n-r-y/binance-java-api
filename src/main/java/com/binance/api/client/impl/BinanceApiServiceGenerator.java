@@ -33,16 +33,13 @@ public class BinanceApiServiceGenerator {
     }
 
     public static <S> S createService(Class<S> serviceClass, String apiKey, String secret) {
-    	Retrofit retrofit = builder.build();
+    	OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         if (!StringUtils.isEmpty(apiKey) && !StringUtils.isEmpty(secret)) {
             AuthenticationInterceptor interceptor = new AuthenticationInterceptor(apiKey, secret);
-            OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//            if (!httpClient.interceptors().contains(interceptor)) {
-                httpClient.addInterceptor(interceptor);
-                builder.client(httpClient.build());
-                retrofit = builder.build();
-  //          }
+            httpClient.addInterceptor(interceptor);
         }
+        builder.client(httpClient.build());
+        Retrofit retrofit = builder.build();
         return retrofit.create(serviceClass);
     }
 
