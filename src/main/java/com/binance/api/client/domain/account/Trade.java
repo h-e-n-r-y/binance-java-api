@@ -1,12 +1,15 @@
 package com.binance.api.client.domain.account;
 
 import com.binance.api.client.constant.BinanceApiConstants;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * Represents an executed trade.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Trade {
 
   /**
@@ -39,6 +42,11 @@ public class Trade {
    */
   private long time;
 
+  /**
+   * The symbol of the trade.
+   */
+  private String symbol;
+
   @JsonProperty("isBuyer")
   private boolean buyer;
 
@@ -54,8 +62,16 @@ public class Trade {
     return id;
   }
 
+  @JsonSetter("id")
   public void setId(Long id) {
     this.id = id;
+  }
+
+  @JsonSetter("tradeId")
+  public void setTradeId(Long id) {
+    if (this.id == null) {
+      setId(id);
+    }
   }
 
   public String getPrice() {
@@ -98,6 +114,14 @@ public class Trade {
     this.time = time;
   }
 
+  public String getSymbol() {
+    return symbol;
+  }
+
+  public void setSymbol(String symbol) {
+    this.symbol = symbol;
+  }
+
   public boolean isBuyer() {
     return buyer;
   }
@@ -134,6 +158,7 @@ public class Trade {
   public String toString() {
     return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
         .append("id", id)
+        .append("symbol", symbol)
         .append("price", price)
         .append("qty", qty)
         .append("commission", commission)

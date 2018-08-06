@@ -11,11 +11,14 @@ import com.binance.api.client.domain.account.CancelOrderResponse;
 import com.binance.api.client.domain.account.DepositAddress;
 import com.binance.api.client.domain.account.DepositHistory;
 import com.binance.api.client.domain.account.NewOrderResponse;
+import com.binance.api.client.domain.account.NewOrderResponseType;
 import com.binance.api.client.domain.account.Order;
 import com.binance.api.client.domain.account.Trade;
 import com.binance.api.client.domain.account.TradeHistoryItem;
 import com.binance.api.client.domain.account.WithdrawHistory;
+import com.binance.api.client.domain.account.WithdrawResult;
 import com.binance.api.client.domain.event.ListenKey;
+import com.binance.api.client.domain.general.Asset;
 import com.binance.api.client.domain.general.ExchangeInfo;
 import com.binance.api.client.domain.general.ServerTime;
 import com.binance.api.client.domain.market.AggTrade;
@@ -32,6 +35,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Binance's REST API URL mappings and endpoint security configuration.
@@ -48,6 +52,9 @@ public interface BinanceApiService {
 
   @GET("/api/v1/exchangeInfo")
   Call<ExchangeInfo> getExchangeInfo();
+
+  @GET
+  Call<List<Asset>> getAllAssets(@Url String url);
 
   // Market data endpoints
 
@@ -71,13 +78,13 @@ public interface BinanceApiService {
 
   @GET("/api/v1/ticker/24hr")
   Call<TickerStatistics> get24HrPriceStatistics(@Query("symbol") String symbol);
-  
+
   @GET("/api/v1/ticker/24hr")
   Call<List<TickerStatistics>> getAll24HrPriceStatistics();
 
   @GET("/api/v1/ticker/allPrices")
   Call<List<TickerPrice>> getLatestPrices();
-  
+
   @GET("/api/v3/ticker/price")
   Call<TickerPrice> getLatestPrice(@Query("symbol") String symbol);
 
@@ -91,14 +98,16 @@ public interface BinanceApiService {
   Call<NewOrderResponse> newOrder(@Query("symbol") String symbol, @Query("side") OrderSide side, @Query("type") OrderType type,
                                   @Query("timeInForce") TimeInForce timeInForce, @Query("quantity") String quantity, @Query("price") String price,
                                   @Query("newClientOrderId") String newClientOrderId, @Query("stopPrice") String stopPrice,
-                                  @Query("icebergQty") String icebergQty, @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
+                                  @Query("icebergQty") String icebergQty, @Query("newOrderRespType") NewOrderResponseType newOrderRespType,
+                                  @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
 
   @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
   @POST("/api/v3/order/test")
   Call<Void> newOrderTest(@Query("symbol") String symbol, @Query("side") OrderSide side, @Query("type") OrderType type,
                           @Query("timeInForce") TimeInForce timeInForce, @Query("quantity") String quantity, @Query("price") String price,
                           @Query("newClientOrderId") String newClientOrderId, @Query("stopPrice") String stopPrice,
-                          @Query("icebergQty") String icebergQty, @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
+                          @Query("icebergQty") String icebergQty, @Query("newOrderRespType") NewOrderResponseType newOrderRespType,
+                          @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
 
   @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
   @GET("/api/v3/order")
@@ -132,8 +141,8 @@ public interface BinanceApiService {
 
   @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
   @POST("/wapi/v3/withdraw.html")
-  Call<Void> withdraw(@Query("asset") String asset, @Query("address") String address, @Query("amount") String amount, @Query("name") String name,
-                      @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
+  Call<WithdrawResult> withdraw(@Query("asset") String asset, @Query("address") String address, @Query("amount") String amount, @Query("name") String name, @Query("addressTag") String addressTag,
+                                @Query("recvWindow") Long recvWindow, @Query("timestamp") Long timestamp);
 
 
   @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
